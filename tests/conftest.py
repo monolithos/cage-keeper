@@ -28,7 +28,7 @@ from pymaker.dss import Vat, Vow, Cat, Jug, Pot
 from pymaker.shutdown import ShutdownModule, End
 from pymaker.keys import register_keys
 
-from src.cage_keeper import CageKeeper
+from cage_keeper.cage_keeper import CageKeeper
 
 
 @pytest.fixture(scope='session')

@@ -4,9 +4,9 @@ cd "$(dirname "$0")"
 
 set -e
 
-rm -rf _virtualenv
-virtualenv --python=`which python3` _virtualenv
-. _virtualenv/bin/activate
+rm -rf venv
+virtualenv --python=`which python3` venv
+. venv/bin/activate
 
 # The advantage of using this method, in contrary to just calling `pip3 install -r requirements.txt` several times,
 # is that it can detect different versions of the same dependency and fail with a "Double requirement given"

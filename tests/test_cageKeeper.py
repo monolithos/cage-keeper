@@ -25,7 +25,7 @@ import logging
 
 from web3 import Web3
 
-from src.cage_keeper import CageKeeper
+from cage_keeper.cage_keeper import CageKeeper
 
 from pymaker import Address
 from pymaker.approval import directly, hope_directly

@@ -3,7 +3,7 @@
 
 _virtualenv
 
-src/__pycache__
+cage_keeper/__pycache__
 __pycache__
 .cache
 .coverage
