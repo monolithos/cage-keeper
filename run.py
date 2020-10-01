@@ -10,16 +10,16 @@ NETWORK = "kovan"
 
 # ETHEREUM_SETTINGS
 if NETWORK.upper() == "KOVAN":
-    RPC_HOST = 'https://kovan.infura.io/v3/*****'
-    ETH_FROM = '0x0000000000000000000000000000000000000000'
-    KEY_FILE = "/PATH/TO/KEY/FILE.json"
-    PASS_FILE = "/PATH/TO/PASS/FILE.pass"
+    RPC_HOST = 'https://kovan.infura.io/v3/683836c8b9384898a9f99d483ae389bc'
+    ETH_FROM = '0xC0CCab7430aEc0C30E76e1dA596263C3bdD82932'
+    KEY_FILE = "/home/captain/development/keystore/9ae_keystore.json"
+    PASS_FILE = "/home/captain/development/keystore/9ae_pass.pass"
     ADDRESSES_FILE = os.path.join(BASE_PATH, 'addresses', 'kovan-addresses.json')  # or '/PATH/TO/ADDRESS/FILE.json'
 elif NETWORK.upper() == "MAINNET":
-    RPC_HOST = 'https://mainnet.infura.io/v3/*****'
-    ETH_FROM = "0x0000000000000000000000000000000000000000"
-    KEY_FILE = "/PATH/TO/KEY/FILE.json"
-    PASS_FILE = "/PATH/TO/PASS/FILE.pass"
+    RPC_HOST = 'https://mainnet.infura.io/v3/683836c8b9384898a9f99d483ae389bc'
+    ETH_FROM = "0xDb7A67fb3a6135c9d5167675ca8560B4bCAee912"
+    KEY_FILE = "/home/captain/development/keystore/912_keystore.json"
+    PASS_FILE = "/home/captain/development/keystore/912_pass.pass"
     ADDRESSES_FILE = os.path.join(BASE_PATH, 'addresses', 'mainnet-addresses.json')  # or '/PATH/TO/ADDRESS/FILE.json'
 else:
     raise Exception('NOT SUPPORTED NETWORK')

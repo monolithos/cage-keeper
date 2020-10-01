@@ -82,6 +82,9 @@ class CageKeeper:
 
         parser.add_argument("--ethgasstation-api-key", type=str, default=None, help="ethgasstation API key")
 
+        parser.add_argument('--fixed-gas-price', type=float, default=None,
+                            help="Uses a fixed value (in Gwei) instead of an external API to determine initial gas")
+
     def __init__(self, args: list, **kwargs):
         """Pass in arguements assign necessary variables/objects and instantiate other Classes"""
 
