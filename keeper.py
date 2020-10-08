@@ -46,7 +46,37 @@ class EnvParam:
                 self.value = cast_type(default) if default is not None else None
 
 
+def get_telegram_params():
+    telegram_bot_token = EnvParam(env_name="TELEGRAM_BOT_TOKEN", cast_type=str, required=False).value
+
+    if telegram_bot_token:
+        chat_ids = {}
+        ids = EnvParam(env_name="TELEGRAM_CHAT_IDS", cast_type=list, required=False, default=[]).value
+        list(map(lambda x: chat_ids.update({x: x}), ids))
+        telegram_conf_file = os.path.join(BASE_PATH, "telegram_conf.json")
+        telegram_conf = {
+            "bot_token": telegram_bot_token,
+            "project_name": EnvParam(env_name="PROJECT_NAME", cast_type=str, required=False, default="monolithos_market_maker_keeper").value,
+            "use_proxy": False,
+            "request_kwargs": {
+                "proxy_url": "",
+                "urllib3_proxy_kwargs": {
+                    "username": "",
+                    "password": ""
+                }
+            },
+            "chat_ids": chat_ids
+        }
+        with open(telegram_conf_file, "w") as file:
+            file.write(json.dumps(telegram_conf))
+
+        return [('--telegram-log-config-file', telegram_conf_file)]
+    else:
+        return []
+
+
 if __name__ == '__main__':
+    telegram_params = get_telegram_params()
     password = str(uuid.uuid4())
     pk = EnvParam(env_name="ETH_PRIVATE_KEY", cast_type=str, required=True).value
     encrypt_pk = web3.Web3().eth.account.encrypt(private_key=pk, password=password)
@@ -81,10 +111,13 @@ if __name__ == '__main__':
 
         ('--ethgasstation-api-key', EnvParam(env_name="ETHGASSTATION_API_KEY", cast_type=str, required=False).value),
         ('--fixed-gas-price', EnvParam(env_name="FIXED_GAS_PRICE", cast_type=float, required=False).value),
+        ('--gas-maximum', EnvParam(env_name="GAS_MAXIMUM", cast_type=float, required=False).value),
 
         ('--max-errors', EnvParam(env_name="MAX_ERRORS", cast_type=int, required=False).value),
         # ('--debug', True),
     ]
 
     keeper_args = generate_params_line(required_params) + generate_params_line(optional_params)
+    keeper_args += generate_params_line(telegram_params)
     CageKeeper(keeper_args).main()
+    print(f"CageKeeper {keeper_args}")

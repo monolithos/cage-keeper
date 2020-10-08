@@ -6,7 +6,7 @@ setup(
     packages=[
         'cage_keeper',
     ],
-    url='https://github.com/captain13128/cage-keeper',
+    url='https://github.com/monolithos/cage-keeper',
     license='',
     author='',
     author_email='',

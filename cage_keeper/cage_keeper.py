@@ -39,6 +39,8 @@ from pymaker.dss import Ilk, Urn
 from auction_keeper.urn_history import UrnHistory
 from auction_keeper.gas import DynamicGasPrice
 
+from cage_keeper.util import setup_logging
+
 
 class CageKeeper:
     """Keeper to facilitate Emergency Shutdown"""
@@ -85,6 +87,21 @@ class CageKeeper:
         parser.add_argument('--fixed-gas-price', type=float, default=None,
                             help="Uses a fixed value (in Gwei) instead of an external API to determine initial gas")
 
+        parser.add_argument("--gas-initial-multiplier", type=float, default=1.0,
+                            help="Adjusts the initial API-provided 'fast' gas price, default 1.0")
+
+        parser.add_argument("--gas-reactive-multiplier", type=float, default=2.25,
+                            help="Increases gas price when transactions haven't been mined after some time")
+
+        parser.add_argument("--gas-maximum", type=float, default=5000,
+                            help="Places an upper bound (in Gwei) on the amount of gas to use for a single TX")
+
+        parser.add_argument("--telegram-log-config-file", type=str, required=False,
+                            help="config file for send logs to telegram chat (e.g. 'telegram_conf.json')", default=None)
+
+        parser.add_argument("--keeper-name", type=str, required=False,
+                            help="market maker keeper name (e.g. 'Uniswap_V2_MDTETH')", default="auction_keeper")
+
     def __init__(self, args: list, **kwargs):
         """Pass in arguements assign necessary variables/objects and instantiate other Classes"""
 
@@ -124,8 +141,7 @@ class CageKeeper:
         else:
             self.gas_price = DefaultGasPrice()
 
-        logging.basicConfig(format='%(asctime)-15s %(levelname)-8s %(message)s',
-                            level=(logging.DEBUG if self.arguments.debug else logging.INFO))
+        setup_logging(self.arguments)
 
     def main(self):
         """ Initialize the lifecycle and enter into the Keeper Lifecycle controller

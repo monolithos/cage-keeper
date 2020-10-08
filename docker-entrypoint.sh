@@ -1,7 +1,6 @@
 #!/bin/bash
 
-our_addresses=()
-deal_for=()
+telegram_chats_id=()
 
 while [ "$1" != "" ]; do
     case $1 in
@@ -31,14 +30,26 @@ while [ "$1" != "" ]; do
         --max-errors )                   shift
                                   export MAX_ERRORS=$1
                                   ;;
-        --ethgasstation-api-key )           shift
+        --ethgasstation-api-key )        shift
                                   export ETHGASSTATION_API_KEY=$1
                                   ;;
-        --previous-cage )              shift
+        --previous-cage )                shift
                                   export PREVIOUS_CAGE=$1
                                   ;;
         --fixed-gas-price )              shift
                                   export FIXED_GAS_PRICE=$1
+                                  ;;
+        --gas-maximum )                  shift
+                                  export GAS_MAXIMUM=$1
+                                  ;;
+        --telegram-bot-token )           shift
+                                  export TELEGRAM_BOT_TOKEN=$1
+                                  ;;
+        --keeper-name )                  shift
+                                  export PROJECT_NAME=$1
+                                  ;;
+        --telegram-chat-id )              shift
+                                  telegram_chats_id+=( "$1" )
                                   ;;
         * )                       shift
                                   ;;
@@ -46,8 +57,7 @@ while [ "$1" != "" ]; do
                                   shift
 done
 
-export  MODEL_OUR_ADDRESSES="${our_addresses[*]}"
-export  DEAL_FOR="${deal_for[*]}"
+export  TELEGRAM_CHAT_IDS="${telegram_chats_id[*]}"
 
 if [[ -z $RPC_HOST || \
       -z $ETH_PRIVATE_KEY || \
